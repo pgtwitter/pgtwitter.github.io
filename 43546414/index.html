@@ -1,0 +1,109 @@
+<html>
+<head>
+<script src="./timbre.js"></script>
+<script>
+var _t;
+var mml0, mml1;
+var env   = T("adsr", {d:3000, s:0, r:600});
+var synth = T("SynthDef", {mul:0.45, poly:8});
+synth.def = function(opts) {
+  var op1 = T("sin", {freq:opts.freq*6, fb:0.25, mul:0.4});
+  var op2 = T("sin", {freq:opts.freq, phase:op1, mul:opts.velocity/128});
+  return env.clone().append(op2).on("ended", opts.doneAction).bang();
+};
+var master = synth;
+var mod    = T("sin", {freq:2, add:3200, mul:800, kr:1});
+master = T("eq", {params:{lf:[800, 0.5, -2], mf:[6400, 0.5, 4]}}, master);
+master = T("phaser", {freq:mod, Q:2, steps:4}, master);
+master = T("delay", {time:"BPM60 L16", fb:0.65, mix:0.25}, master);
+
+function f(num0, num1) {
+	mml0= g(num0);
+	mml1= g(num1);
+	_t= T("mml", {mml:[mml0, mml1]}, synth).on("ended", function() {
+		this.stop();
+	}).set({buddies:master}).start();
+}
+function g(num) {
+	var mml = "t60 l8 ";
+	num.split('').forEach(function(c) {
+		switch (c) {
+			case '1':
+				mml+= 'o5b  ';
+				break;
+			case '2':
+				mml+= 'o6c  ';
+				break;
+			case '3':
+				mml+= 'o6d  ';
+				break;
+			case '4':
+				mml+= 'o6e  ';
+				break;
+			case '5':
+				mml+= 'o6f+ ';
+				break;
+			case '6':
+				mml+= 'o6g  ';
+				break;
+			case '7':
+				mml+= 'o6a  ';
+				break;
+			case '8':
+				mml+= 'o6b  ';
+				break;	
+			case '9':
+				mml+= 'o7d  ';
+				break;
+			case '0':
+				mml+= 'r8   ';
+				break;
+			default:
+				break;
+		}
+	});
+	return mml;
+}
+function zeropadding(num) {
+	return ( '00000000' + num ).slice( -8 );
+}
+function s() {
+	var m00= zeropadding(document.getElementById('m00').value);
+	document.getElementById('m00').value= m00;
+	var m01= zeropadding(document.getElementById('m01').value);
+	document.getElementById('m01').value= m01;
+	var m10= zeropadding(document.getElementById('m10').value);
+	document.getElementById('m10').value= m10;
+	var m11= zeropadding(document.getElementById('m11').value);
+	document.getElementById('m11').value= m11;
+	f(m00+m01, m10+m11);
+}
+function e() {
+	_t.stop();
+}
+</script>
+</head>
+<body>
+<button onclick="javascipt:if(!timbre.isPlaying){s();}else{e();}">Start/Stop</button>
+<table><tr>
+<th>A</th>
+<td><input id="m00" type="text" value="43546414" maxlength="8"></td>
+<td><input id="m01" type="text" value="43541654" maxlength="8"></td>
+</tr><tr>
+<th>B</th>
+<td><input id="m10" type="text" value="00000000" maxlength="8"></td>
+<td><input id="m11" type="text" value="00009154" maxlength="8"></td>
+</tr></table>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<hr/>
+<b>参考</b>
+<ul>
+<li><a href="http://open.mixi.jp/user/633958/diary/1940196896">「STORY（SXSW-MIX）」に見る＜Perfume量子論＞ | mixiみんなの日記</a></li>
+<li><a href="http://mohayonao.github.io/timbre.js/ja/satie.html">Gymnopedie<a> timbre.js</li>
+</ul>
+</body>
+</html>
