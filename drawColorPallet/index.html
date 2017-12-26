@@ -68,9 +68,9 @@
 		</ul>
 	</div>
 	<div id="dropAreaModal" style="display:none;">
-		<div class="spinner">
-			<div class="dot1"></div>
-			<div class="dot2"></div>
+		<div id="spinner" class="spinner">
+			<div id="dot1" class="dot1"></div>
+			<div id="dot2" class="dot2"></div>
 		</div>
 	</div>
 </body>
@@ -82,8 +82,11 @@
 		var lock = document.getElementById('dropAreaModal');
 		lock.style.width = window.innerWidth;
 		lock.style.height = window.innerHeight;
-		lock.style.lineHeight = window.innerHeight + 'px';
 		lock.style.display = 'block';
+		var spinner = document.getElementById('spinner');
+		spinner.style.marginTop = (window.innerHeight - spinner.offsetHeight) / 2 + 'px';
+		document.getElementById('dot1').style.backgroundColor = '#eee';
+		document.getElementById('dot2').style.backgroundColor = '#eee';
 	}
 
 	function hideLock() {
