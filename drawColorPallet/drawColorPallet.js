@@ -108,15 +108,15 @@
 	}
 
 	function lrgb(o0, o1) {
-		var dr = (o0.rgb.r - o1.rgb.r) * (o0.rgb.r - o1.rgb.r);
-		var dg = (o0.rgb.g - o1.rgb.g) * (o0.rgb.g - o1.rgb.g);
-		var db = (o0.rgb.b - o1.rgb.b) * (o0.rgb.b - o1.rgb.b);
+		var dr = o0.rgb.r - o1.rgb.r;
+		var dg = o0.rgb.g - o1.rgb.g;
+		var db = o0.rgb.b - o1.rgb.b;
 		return dr * dr + dg * dg + db * db;
 	}
 
 	function lhsv(o0, o1) {
-		var dv = (o0.hsv.v - o1.hsv.v) * (o0.hsv.v - o1.hsv.v);
-		var ds = (o0.hsv.s - o1.hsv.s) * (o0.hsv.s - o1.hsv.s);
+		var dv = o0.hsv.v - o1.hsv.v;
+		var ds = o0.hsv.s - o1.hsv.s;
 		var dh = Math.abs(o0.hsv.h - o1.hsv.h);
 		dh = (dh > 0.5) ? 1.0 - dh : dh;
 		return dv * dv + ds * ds + dh * dh;
